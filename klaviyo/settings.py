@@ -135,6 +135,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Email Configuration
+# https://www.lifewire.com/what-are-the-gmail-smtp-settings-1170854
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "klaviyo2018junbo@gmail.com"
 EMAIL_HOST_PASSWORD = "klaviyo2018"

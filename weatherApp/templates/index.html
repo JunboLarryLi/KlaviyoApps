@@ -1,9 +1,30 @@
 <!DOCTYPE html>
 <html>
+
+<!-- The video -->
+
 <head>
 	<title>Weather App</title>
 	<meta name="description" content="Klaviyo Weather App">
 	<style type="text/css">
+		/* Style the video: 100% width and height to cover the entire window */
+		#myVideo {
+		    position: fixed;
+		    right: 0;
+		    bottom: 0;
+		    min-width: 100%;
+		    min-height: 100%;
+		}
+
+		/* Add some content at the bottom of the video/page */
+		.content {
+		    position: fixed;
+		    bottom: 200px;
+		    background: rgba(0, 0, 0, 0.5);
+		    color: #f1f1f1;
+		    width: 100%;
+		    padding: 20px;
+		}
 		#main-header{
 			text-align:center;
 			background-color:black;
@@ -17,33 +38,42 @@
 		}
 	</style>
 </head>
+
 <body>
-	<header id="main-header">
-		<h1>Weather Power Email</h1>
-	</header>
-	{% block context %}
-    <form action="subscribe/" style="text-align:center" method="POST">
-			{% csrf_token %}
-			<!-- add above for security reason -->
-      <div>
-        <label>Email Address<br/></label>
-        <input type="email" name="email">
-      </div>
-      <br>
-      <div>
-        <label>Location<br/></label>
-        <select name="location">
-					{% for city in cities %} <!-- pass-in the keys from the context-->
-						<option value="{{city}}">{{city}}</option>
-					{% endfor %}
-        </select>
-      </div>
-      <br>
-        <input type="submit" name="submit" value="Subsrcibe">
-    </form>
-		{% endblock %}
-	<footer id="main-footer">
-		<p>Copyright &copy; 2018, Weather Power Email</p>
-	</footer>
+	<video autoplay muted loop id="myVideo">
+		<!-- https://docs.djangoproject.com/en/1.11/howto/static-files/ -->
+		{% load static %}
+	  <source src= "{% static "rain_cover.mp4" %}" type="video/mp4">
+	</video>
+
+	<div class="content">
+		<header id="main-header">
+			<h1>Weather Power Email</h1>
+		</header>
+			{% block context %}
+	    <form action="subscribe/" style="text-align:center" method="POST">
+				{% csrf_token %}
+				<!-- add above for security reason -->
+	      <div>
+	        <label>Email Address<br/></label>
+	        <input type="email" placeholder="Enter your email" name="email">
+	      </div>
+	      <br>
+	      <div>
+	        <label>Location<br/></label>
+	        <select name="location">
+						{% for city in cities %} <!-- pass-in the keys from the context-->
+							<option value="{{city}}">{{city}}</option>
+						{% endfor %}
+	        </select>
+	      </div>
+	      <br>
+	        <input type="submit" name="submit" value="Subsrcibe">
+	    </form>
+			{% endblock %}
+		<footer id="main-footer">
+			<p>Copyright &copy; 2018, Weather Power Email</p>
+		</footer>
+	</div>
 </body>
 </html>

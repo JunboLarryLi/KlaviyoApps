@@ -126,12 +126,9 @@ def send_emails():
             subject = "Enjoy a discount on us."
             msg = populate_msg('normal', record, city, state)
 
-        ''' Populate message filed'''
-        msg = "Hi there, we find out that the weather in {},{} is {}, and the degree is {} F. Time to enjoy our discount!".format(city, state, record['cur_weather'], record['cur_temp'])
-
         ''' User Django API to sent out emails'''
         print 'Successfully sent to ' + str(user.email) + ": " + str(user.location)
-        # send_mail(subject, msg, "klaviyo2018junbo@gmail.com", recipient, fail_silently=False)
+        send_mail(subject, msg, "klaviyo2018junbo@gmail.com", recipient, fail_silently=False)
 
 def populate_msg(grade, record, city, state):
     """

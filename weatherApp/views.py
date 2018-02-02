@@ -8,12 +8,13 @@ from django.http import HttpResponse
 from django.conf import settings
 import json
 import os
+import re
 
 from django import forms
 from .models import User
 # from utilities import send_emails
 
-states_hash = {
+STATES_HASH = {
     'Alabama': 'AL',
     'Alaska': 'AK',
     'American Samoa': 'AS',
@@ -82,11 +83,11 @@ def index(request):
     data = json.load(open(f))
     top_100_cities = []
     for i in range(100):
-        top_100_cities.append(data[i]['city']+", " + states_hash[data[i]['state']])
+        top_100_cities.append(data[i]['city']+", " + STATES_HASH[data[i]['state']])
     context = {}
     context['cities'] = top_100_cities
     return render(request, 'index.html', context)
-    
+
 '''
 S1: Parse request
 S2: Validate email address
@@ -98,6 +99,11 @@ def subscribe(request):
     # Parse loc & email
     user_email = request.POST.get("email", "")
     user_location = request.POST.get("location", "")
+
+    # validate the email address, http://emailregex.com/
+    emailregex = re.compile("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
+    if emailregex.match(user_email) == None:
+        return render(request, 'invalid_email.html')
 
     # if in DB -> go to another page
     if len(User.objects.all().filter(email = user_email)) > 0:
