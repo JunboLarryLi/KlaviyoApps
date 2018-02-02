@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Weather App</title>
+	<meta name="description" content="Klaviyo Weather App">
+	<style type="text/css">
+		#main-header{
+			text-align:center;
+			background-color:black;
+			color:white;
+			padding:10px;
+		}
+
+		#main-footer{
+			text-align: center;
+			font-size:18px;
+		}
+	</style>
+</head>
+<body>
+	<header id="main-header">
+		<h1>Weather Power Email</h1>
+	</header>
+	{% block context %}
+    <form action="subscribe/" style="text-align:center" method="POST">
+			{% csrf_token %}
+			<!-- add above for security reason -->
+      <div>
+        <label>Email Address<br/></label>
+        <input type="email" name="email">
+      </div>
+      <br>
+      <div>
+        <label>Location<br/></label>
+        <select name="location">
+					{% for city in cities %} <!-- pass-in the keys from the context-->
+						<option value="{{city}}">{{city}}</option>
+					{% endfor %}
+        </select>
+      </div>
+      <br>
+        <input type="submit" name="submit" value="Subsrcibe">
+    </form>
+		{% endblock %}
+	<footer id="main-footer">
+		<p>Copyright &copy; 2018, Weather Power Email</p>
+	</footer>
+</body>
+</html>
