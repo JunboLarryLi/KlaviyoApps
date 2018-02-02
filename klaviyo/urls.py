@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^$', include('weatherApp.urls')),
+    url(r'^', include('weatherApp.urls')),
     url(r'^admin/', admin.site.urls), # lead to admin page
     url(r'^weatherApp/', include('weatherApp.urls')) # anyone type in .../weatherApp will be led to weatherApp.urls files
 ]

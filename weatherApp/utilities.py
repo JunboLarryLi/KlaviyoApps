@@ -9,9 +9,60 @@ TODO: move to WUNDERGROUND_API_KEY into settings, but given import name error
 '''
 WUNDERGROUND_API_KEY = '761cf5ce0fbe75e7'
 
+# http://api.wunderground.com/api/761cf5ce0fbe75e7/almanac/q/OH/Columbus.json
+# http://api.wunderground.com/api/761cf5ce0fbe75e7/conditions/q/CA/San_Francisco.json
 
-# 'http://api.wunderground.com/api/761cf5ce0fbe75e7/almanac/q/OH/Columbus.json'
-# 'http://api.wunderground.com/api/761cf5ce0fbe75e7/conditions/q/CA/San_Francisco.json'
+# Current Condition Phrases glossary
+# https://www.wunderground.com/weather/api/d/docs?d=resources/phrase-glossary&MR=1
+PRECIPITATING = set(
+    ['Drizzle',
+    'Rain',
+    'Snow',
+    'Snow Grains',
+    'Ice Crystals',
+    'Ice Pellets',
+    'Hail',
+    'Mist',
+    'Fog',
+    'Fog Patches',
+    'Smoke',
+    'Volcanic Ash',
+    'Widespread Dust',
+    'Sand',
+    'Haze',
+    'Spray',
+    'Dust Whirls',
+    'Sandstorm',
+    'Low Drifting Snow',
+    'Low Drifting Widespread Dust',
+    'Low Drifting Sand',
+    'Blowing Snow',
+    'Blowing Widespread Dust',
+    'Blowing Sand',
+    'Rain Mist',
+    'Rain Showers',
+    'Snow Showers',
+    'Snow Blowing Snow Mist',
+    'Ice Pellet Showers',
+    'Hail Showers',
+    'Small Hail Showers',
+    'Thunderstorm',
+    'Thunderstorms and Rain',
+    'Thunderstorms and Snow',
+    'Thunderstorms and Ice Pellets',
+    'Thunderstorms with Hail',
+    'Thunderstorms with Small Hail',
+    'Freezing Drizzle',
+    'Freezing Rain',
+    'Freezing Fog'])
+
+FULL_PRECIPITATING = set()
+for phrase in PRECIPITATING:
+    FULL_PRECIPITATING.add(phrase)
+    FULL_PRECIPITATING.add('Light ' + phrase)
+    FULL_PRECIPITATING.add('Heavy ' + phrase)
+
+
 def weather_data(city, state):
     """
     Description: Apply Wundergound API to retrieve weather record for a given location.
@@ -65,16 +116,38 @@ def send_emails():
         record = weather_data(city, state)
 
         ''' Populate subject filed'''
-        if record['cur_temp'] - 5.0 >= record['almanac_avg_temp'] or record['cur_weather'] == 'Sunny':
+        if record['cur_temp'] - 5.0 >= record['almanac_avg_temp'] or record['cur_weather'] == 'Clear':
             subject = "It's nice out! Enjoy a discount on us."
-        elif record['cur_temp'] + 5.0 <= record['almanac_avg_temp']:
+            msg = populate_msg('good', record, city, state)
+        elif record['cur_temp'] + 5.0 <= record['almanac_avg_temp'] or record['cur_weather'] in FULL_PRECIPITATING:
             subject = "Not so nice out? That's okay, enjoy a discount on us."
+            msg = populate_msg('bad', record, city, state)
         else:
             subject = "Enjoy a discount on us."
+            msg = populate_msg('normal', record, city, state)
 
         ''' Populate message filed'''
         msg = "Hi there, we find out that the weather in {},{} is {}, and the degree is {} F. Time to enjoy our discount!".format(city, state, record['cur_weather'], record['cur_temp'])
 
         ''' User Django API to sent out emails'''
         print 'Successfully sent to ' + str(user.email) + ": " + str(user.location)
-        send_mail(subject, msg, "klaviyo2018junbo@gmail.com", recipient, fail_silently=False)
+        # send_mail(subject, msg, "klaviyo2018junbo@gmail.com", recipient, fail_silently=False)
+
+def populate_msg(grade, record, city, state):
+    """
+    Description: Populate message filed.
+    @para:
+        type grade str: indication of good, normal or bad
+        type record dict: contains weather info
+        type city str: subscriber's city
+        type state str: subscriber's state
+    @ret:
+        type msg str: cutomized message based on given info.
+    """
+    if grade == 'good':
+        msg = "Hi there, we find out that the weather in {},{} is {}, and the degree is {} F. At this awesome weather, please enjoy our discount!".format(city, state, record['cur_weather'], record['cur_temp'])
+    elif grade == 'bad':
+        msg = "Hi there, we find out that the weather in {},{} is {}, and the degree is {} F. Since the weather is not so good, why don't come and check out our discount!".format(city, state, record['cur_weather'], record['cur_temp'])
+    else:
+        msg = "Hi there, we find out that the weather in {},{} is {}, and the degree is {} F. Come and enjoy our discount!".format(city, state, record['cur_weather'], record['cur_temp'])
+    return msg
