@@ -4,10 +4,7 @@ import requests
 
 from .models import User
 
-'''
-TODO: move to WUNDERGROUND_API_KEY into settings, but given import name error
-'''
-WUNDERGROUND_API_KEY = '761cf5ce0fbe75e7'
+from klaviyo.settings import WUNDERGROUND_API_KEY
 
 # http://api.wunderground.com/api/761cf5ce0fbe75e7/almanac/q/OH/Columbus.json
 # http://api.wunderground.com/api/761cf5ce0fbe75e7/conditions/q/CA/San_Francisco.json
