@@ -5,6 +5,7 @@
 
 <head>
 	<title>Weather App</title>
+	<link rel="shortcut icon" href="/static/favicon.ico">
 	<meta name="description" content="Klaviyo Weather App">
 	<style type="text/css">
 		/* Style the video: 100% width and height to cover the entire window */
@@ -19,11 +20,11 @@
 		/* Add some content at the bottom of the video/page */
 		.content {
 		    position: fixed;
-		    bottom: 200px;
+				top:50px;
+		    bottom: 50px;
 		    background: rgba(0, 0, 0, 0.5);
 		    color: #f1f1f1;
 		    width: 100%;
-		    padding: 20px;
 		}
 		#main-header{
 			text-align:center;
@@ -48,8 +49,9 @@
 
 	<div class="content">
 		<header id="main-header">
-			<h1>Weather Power Email</h1>
+			<h1>Weather Powered Email</h1>
 		</header>
+		<br><br><br><br><br><br>
 			{% block context %}
 	    <form action="subscribe/" style="text-align:center" method="POST">
 				{% csrf_token %}
@@ -70,9 +72,10 @@
 	      <br>
 	        <input type="submit" name="submit" value="Subsrcibe">
 	    </form>
+			<br><br><br><br><br><br><br><br><br>
 			{% endblock %}
 		<footer id="main-footer">
-			<p>Copyright &copy; 2018, Weather Power Email</p>
+			<p>Copyright &copy; 2018, Weathered Powered Email, by Klaviyo</p>
 		</footer>
 	</div>
 </body>

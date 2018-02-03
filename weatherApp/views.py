@@ -12,6 +12,7 @@ import re
 
 from django import forms
 from .models import User
+from .utilities import send_util
 # from utilities import send_emails
 
 STATES_HASH = {
@@ -96,6 +97,7 @@ S2: Validate email address
     Case II: invalid emall address -> html build-in will remind
 '''
 def subscribe(request):
+    # send_util()
     # Parse loc & email
     user_email = request.POST.get("email", "")
     user_location = request.POST.get("location", "")

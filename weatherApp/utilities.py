@@ -4,7 +4,7 @@ import requests
 
 from .models import User
 
-from klaviyo.settings import WUNDERGROUND_API_KEY
+from klaviyo.settings import WUNDERGROUND_API_KEY, BASE_DIR
 
 # http://api.wunderground.com/api/761cf5ce0fbe75e7/almanac/q/OH/Columbus.json
 # http://api.wunderground.com/api/761cf5ce0fbe75e7/conditions/q/CA/San_Francisco.json
@@ -145,3 +145,51 @@ def populate_msg(grade, record, city, state):
     else:
         msg = "Hi there, we find out that the weather in {},{} is {}, and the degree is {} F. Come and enjoy our discount!".format(city, state, record['cur_weather'], record['cur_temp'])
     return msg
+
+
+import os
+from email.mime.image import MIMEImage
+from django.conf import settings
+from django.core import mail
+
+def add_img(src, img_id):
+    """
+    :param src:
+    :param img_id:
+    :return:
+    """
+    fp = open(src, 'rb')
+    msg_image = MIMEImage(fp.read())
+    fp.close()
+    msg_image.add_header('Content-ID', '<'+img_id+'>')
+    return msg_image
+
+
+def send_util():
+    path = os.getcwd()
+    path_use = path.replace('\\', '/')
+    html = '''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        YOU FUCKING AWESOME
+        <img src="cid:test_cid"/>
+    </body>
+    </html>
+    '''
+    recipient_list = ['junbo.li@duke.edu']
+    from_mail = settings.EMAIL_HOST_USER
+    msg = mail.EmailMessage('TEST TEST TEST', html, from_mail, recipient_list)
+    msg.content_subtype = 'html'
+    msg.mixed_subtype = 'related' # add image inline instead of as attachments
+    msg.encoding = 'utf-8'
+    image = add_img(BASE_DIR+'/puppy.jpg', 'test_cid')
+    msg.attach(image)
+    if msg.send():
+        return True
+    else:
+        return False

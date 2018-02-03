@@ -8,6 +8,9 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
+
+NOTE:
+REMEMBER TO SWTICH DATABASE SETTINGS WHEN RUN ON HEROKU OR LOCALHOST
 """
 
 import os
@@ -28,7 +31,7 @@ SECRET_KEY = 'o@$vqvtxp44q05-m#4c869%nat5kb-#+pfg50k)*&g=_rt7$)k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['local', 'klaviyo-weather-powered-email.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', 'klaviyo-weather-powered-email.herokuapp.com']
 
 
 # Application definition
@@ -173,4 +176,4 @@ EMAIL_HOST_PASSWORD = "klaviyo2018"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-WUNDERGROUND_API_KEY = '761cf5ce0fbe75e7' # TO DO
+WUNDERGROUND_API_KEY = '761cf5ce0fbe75e7'
