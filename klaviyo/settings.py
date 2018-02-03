@@ -28,7 +28,7 @@ SECRET_KEY = 'o@$vqvtxp44q05-m#4c869%nat5kb-#+pfg50k)*&g=_rt7$)k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['klaviyo-weather-powered-email.herokuapp.com']
+ALLOWED_HOSTS = ['local', 'klaviyo-weather-powered-email.herokuapp.com']
 
 
 # Application definition
