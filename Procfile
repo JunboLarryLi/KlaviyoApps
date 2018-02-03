@@ -1,1 +1,1 @@
-web: gunicorn weatherApp.wsgi --log-file -
+web: gunicorn klaviyo.wsgi --log-file -
