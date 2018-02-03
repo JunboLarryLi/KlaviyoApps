@@ -107,7 +107,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'heroku_112c84ebeeb128b',
         'USER': 'b51dc2bd6e1c12',
-        'PASSWD': 'ef47f796',
+        'PASSWORD': 'ef47f796',
         'HOST': 'us-cdbr-iron-east-05.cleardb.net',
         'PORT': ''
     }
