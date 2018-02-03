@@ -102,22 +102,22 @@ We will choose to use mysql instead of sqlite3 b/c mysql supports multi-thread s
 # Heroku remote host db
 # mysql://b51dc2bd6e1c12:ef47f796@us-cdbr-iron-east-05.cleardb.net/heroku_112c84ebeeb128b?reconnect=true
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'heroku_112c84ebeeb128b',
-#         'USER': 'b51dc2bd6e1c12',
-#         'PASSWORD': 'ef47f796',
-#         'HOST': 'us-cdbr-iron-east-05.cleardb.net',
-#         'PORT': ''
-#     }
-# }
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default=config('CLEARDB_DATABASE_URL')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'heroku_112c84ebeeb128b',
+        'USER': 'b51dc2bd6e1c12',
+        'PASSWD': 'ef47f796',
+        'HOST': 'us-cdbr-iron-east-05.cleardb.net',
+        'PORT': ''
+    }
 }
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=config('CLEARDB_DATABASE_URL')
+#     )
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
