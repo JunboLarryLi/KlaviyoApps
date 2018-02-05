@@ -79,17 +79,35 @@ Technologies used are
 #### Results
 -------
 
-**[Klayvio Weather](https://demo-klayvio-weather.herokuapp.com/)**
+**[Klayvio Weather Powered App (hosted on Heroku)](https://klaviyo-weather-powered-email.herokuapp.com/)**
 
+**Subscribe page**:
+![alt text](/static/demo_img/demo_subsribe_page.png "subscribe page")
 
-![alt text](/weatherApp/static/puppy.jpg "Logo Title Text 1")
+**Successfully subscribed page**:
+![alt text](/static/demo_img/demo_success.png "Successfully subscribed")
 
+**Duplicated email address page**:
+![alt text](/static/demo_img/demo_duplicate_email_addr.png "Duplicated email address"
+)
 
+**Invalid email address page**:
+![alt text](/static/demo_img/demo_invalid_addr.png "Invalid email address"
+)
 
+**Email template: Sunny**:
+![alt text](/static/demo_img/demo_sunny_email.png "Email template: Sunny"
+)
+
+**Email template: Rainy**:
+![alt text](/static/demo_img/demo_rainy_email.png "Email template: Rainy"
+)
 
 #### Future works
-Quite a few improvements can be made
-1. rabbitMQ + celery to queue up the task
-2. better templatize the email building
+1. Add admin page. In this way, the administrator can easily modify the subscribers without digging into MySQL database.
 
-I would love the chance to go into more detail to discuss
+2. Adopt a more scientific way to calculate the average weather for a particular location through history.
+
+3. Add more features.
+
+## Please feel free to contact me. I would love to walk through my design and code.
