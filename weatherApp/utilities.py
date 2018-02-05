@@ -1,22 +1,25 @@
-from django.core.mail import send_mail
+import os
 
 import requests
-
-from .models import User
-
-from klaviyo.settings import WUNDERGROUND_API_KEY, BASE_DIR
-
-import os
 from email.mime.image import MIMEImage
-from django.conf import settings
 from django.core import mail
+from django.conf import settings
 from django.template.loader import render_to_string
 
+from klaviyo.settings import WUNDERGROUND_API_KEY, BASE_DIR
+from .models import User
 
+
+'''
+Reference/links of the Wundergound API
+'''
 # http://api.wunderground.com/api/761cf5ce0fbe75e7/almanac/q/OH/Columbus.json
 # http://api.wunderground.com/api/761cf5ce0fbe75e7/conditions/q/CA/San_Francisco.json
 
-# Current Condition Phrases glossary
+'''
+Current Condition Phrases glossary
+'''
+
 # https://www.wunderground.com/weather/api/d/docs?d=resources/phrase-glossary&MR=1
 PRECIPITATING = set(
     ['Drizzle',
@@ -105,11 +108,11 @@ def weather_data(city, state):
 
 def send_emails():
     """
-    Description: Apply SendGrid API to send newsletters to all subscribers from our database.
+    Description: Apply SendGrid API to send newsletters(in html template) to all subscribers from our database.
 
     @para: None
 
-    ret: None.
+    ret: None
     """
     subject = ""
     from_mail = settings.EMAIL_HOST_USER
@@ -125,72 +128,40 @@ def send_emails():
         ''' Populate subject filed'''
         if record['cur_temp'] - 5.0 >= record['almanac_avg_temp'] or record['cur_weather'] == 'Clear':
             subject = "It's nice out! Enjoy a discount on us."
-            context['picture'] = BASE_DIR + '/weatherApp/static/email_content_sunny.jpeg'
             image = add_img(BASE_DIR + '/weatherApp/static/email_content_sunny.jpeg', 'weather')
-            # msg = populate_msg('good', record, city, state)
+
         elif record['cur_temp'] + 5.0 <= record['almanac_avg_temp'] or record['cur_weather'] in FULL_PRECIPITATING:
             subject = "Not so nice out? That's okay, enjoy a discount on us."
-            context['picture'] = BASE_DIR + '/weatherApp/static/email_content_rain.jpeg'
             image = add_img(BASE_DIR + '/weatherApp/static/email_content_rain.jpeg', 'weather')
-            # msg = populate_msg('bad', record, city, state)
+
         else:
             subject = "Enjoy a discount on us."
-            context['picture'] = BASE_DIR + '/weatherApp/static/email_content_normal.jpeg'
             image = add_img(BASE_DIR + '/weatherApp/static/email_content_normal.jpeg', 'weather')
-            # msg = populate_msg('normal', record, city, state)
+
 
         context['city'] = city
         context['state'] = state
         context['weather'] = record['cur_weather']
         context['temperature'] = record['cur_temp']
+        logo = add_img(BASE_DIR + '/weatherApp/static/klaviyo-logo.jpeg', 'klaviyo-logo')
 
         html_content = render_to_string(BASE_DIR + '/weatherApp/templates/newsletter.html', context=context).strip()
         msg = mail.EmailMessage(subject, html_content, from_mail, recipient_list)
         msg.content_subtype = 'html'    # Main content is text/html
         msg.mixed_subtype = 'related' # This is critical, otherwise images will be displayed as attachments!
 
-        # image = add_img(BASE_DIR+'/puppy.jpg', 'weather')
         msg.attach(image)
+        msg.attach(logo)
 
-        # msg.encoding = 'utf-8'
         ''' User Django API to sent out emails'''
         if msg.send():
             print 'Successfully sent to ' + str(user.email) + ": " + str(user.location)
         else:
             print 'Unsuccessfully sent to ' + str(user.email) + ": " + str(user.location)
-        # send_mail(subject, html_content, "klaviyo2018junbo@gmail.com", recipient, fail_silently=False)
-
-'''
-def populate_msg(grade, record, city, state):
-    """
-    Description: Populate message filed.
-    @para:
-        type grade str: indication of good, normal or bad
-        type record dict: contains weather info
-        type city str: subscriber's city
-        type state str: subscriber's state
-    @ret:
-        type msg str: cutomized message based on given info.
-    """
-    if grade == 'good':
-        # msg = "Hi there, we find out that the weather in {},{} is {}, and the degree is {} F. At this awesome weather, please enjoy our discount!".format(city, state, record['cur_weather'], record['cur_temp'])
-    elif grade == 'bad':
-        # msg = "Hi there, we find out that the weather in {},{} is {}, and the degree is {} F. Since the weather is not so good, why don't come and check out our discount!".format(city, state, record['cur_weather'], record['cur_temp'])
-    else:
-        # msg = "Hi there, we find out that the weather in {},{} is {}, and the degree is {} F. Come and enjoy our discount!".format(city, state, record['cur_weather'], record['cur_temp'])
-    return msg
-'''
-
-
-import os
-from email.mime.image import MIMEImage
-from django.conf import settings
-from django.core import mail
-from django.template.loader import render_to_string
-
 
 def add_img(src, img_id):
     """
+    Description: Wrap an image, used for sending inline image as a html email template 
     :param src:
     :param img_id:
     :return:
@@ -200,22 +171,3 @@ def add_img(src, img_id):
     fp.close()
     msg_image.add_header('Content-ID', '<'+img_id+'>')
     return msg_image
-
-
-# def send_util():
-#     path = os.getcwd()
-#     path_use = path.replace('\\', '/')
-#     html_content = render_to_string(BASE_DIR + '/weatherApp/templates/newsletter.html', context=context).strip()
-#     recipient_list = ['junbo.li@duke.edu']
-#     from_mail = settings.EMAIL_HOST_USER
-#     msg = mail.EmailMessage('TEST TEST TEST', html_content, from_mail, recipient_list)
-#     msg.content_subtype = 'html'    # Main content is text/html
-#     msg.mixed_subtype = 'related' # This is critical, otherwise images will be displayed as attachments!
-#     msg.encoding = 'utf-8'
-#
-#     image = add_img(BASE_DIR+'/puppy.jpg', 'weather')
-#     msg.attach(image)
-#     if msg.send():
-#         return True
-#     else:
-#         return False

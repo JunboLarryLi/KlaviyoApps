@@ -64,6 +64,7 @@
 	      <div>
 	        <label>Location<br/></label>
 	        <select name="location">
+						<option value="" disabled selected>Where do you live?</option>
 						{% for city in cities %} <!-- pass-in the keys from the context-->
 							<option value="{{city}}">{{city}}</option>
 						{% endfor %}

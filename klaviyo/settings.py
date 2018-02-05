@@ -26,7 +26,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'o@$vqvtxp44q05-m#4c869%nat5kb-#+pfg50k)*&g=_rt7$)k'
-
+# USED FOR WUNDERGROUND_API
+WUNDERGROUND_API_KEY = '761cf5ce0fbe75e7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -80,6 +81,7 @@ WSGI_APPLICATION = 'klaviyo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# Default db
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -87,39 +89,35 @@ WSGI_APPLICATION = 'klaviyo.wsgi.application'
 #     }
 # }
 
+
 '''
+NOTICE: REMEMBER TO SWITCH DBs WHEN USING DIFFERENT SERVERS. 
 We will choose to use mysql instead of sqlite3 b/c mysql supports multi-thread situation
 '''
 # Local MySQL db
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'klaviyo',
-#         'USER': 'root',
-#         'PASSWORD': 'fantasy',
-#         'HOST': 'localhost',
-#         'PORT': ''
-#     }
-# }
-
-# Heroku remote host db
-# mysql://b51dc2bd6e1c12:ef47f796@us-cdbr-iron-east-05.cleardb.net/heroku_112c84ebeeb128b?reconnect=true
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'heroku_112c84ebeeb128b',
-        'USER': 'b51dc2bd6e1c12',
-        'PASSWORD': 'ef47f796',
-        'HOST': 'us-cdbr-iron-east-05.cleardb.net',
+        'NAME': 'klaviyo',
+        'USER': 'root',
+        'PASSWORD': 'fantasy',
+        'HOST': 'localhost',
         'PORT': ''
     }
 }
 
+# Heroku remote host db
+# mysql://b51dc2bd6e1c12:ef47f796@us-cdbr-iron-east-05.cleardb.net/heroku_112c84ebeeb128b?reconnect=true
+
 # DATABASES = {
-#     'default': dj_database_url.config(
-#         default=config('CLEARDB_DATABASE_URL')
-#     )
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'heroku_112c84ebeeb128b',
+#         'USER': 'b51dc2bd6e1c12',
+#         'PASSWORD': 'ef47f796',
+#         'HOST': 'us-cdbr-iron-east-05.cleardb.net',
+#         'PORT': ''
+#     }
 # }
 
 # Password validation
@@ -175,5 +173,3 @@ EMAIL_HOST_USER = "klaviyo2018junbo@gmail.com"
 EMAIL_HOST_PASSWORD = "klaviyo2018"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
-WUNDERGROUND_API_KEY = '761cf5ce0fbe75e7'

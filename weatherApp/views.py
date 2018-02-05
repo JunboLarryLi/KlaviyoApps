@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
 
 from django.shortcuts import render
@@ -6,11 +7,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from django.conf import settings
-import json
-import os
-import re
 
+import os
 from django import forms
+import json
+import re
 from .models import User
 # from .utilities import send_util
 
@@ -96,7 +97,6 @@ S2: Validate email address
     Case II: invalid emall address -> html build-in will remind
 '''
 def subscribe(request):
-    # send_util()
     # Parse loc & email
     user_email = request.POST.get("email", "")
     user_location = request.POST.get("location", "")
