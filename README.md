@@ -14,7 +14,7 @@
 
 4. migrate and create database schema
    ```
-   # python manage.py migrate
+   $ python manage.py migrate
    ```
 4. run our app on server
    ```
