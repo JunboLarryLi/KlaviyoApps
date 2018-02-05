@@ -12,25 +12,27 @@
 3. install MySQL (preferred the UI development app MySQL Workbench as well).
   Download MySQL Workbench at: [MySQ\-Workbench](https://dev.mysql.com/downloads/workbench/)
 
-4. migrate and create database schema
+4. assume we are going to work on local first. Go to `/klaviyo/settings.py` and comment out line 112 - 121. Meanwhile, get rid of the comments from line 98 - 107. The purpose behind is to switch back to local database settings.
+
+5. migrate and create database schema
    ```
    $ python manage.py migrate
    ```
-4. run our app on server
+6. run our app on server
    ```
    $ python manage.py runserver
    ```
-5. now try to open your browser and type in `http://localhost:8000/weatherApp/`, put a few emails with different locations, and click subscribe. Meanwhile open up your MySQL database management system, or Workbench. You should be able to see the info you just entered from your database.
+7. now try to open your browser and type in `http://localhost:8000/weatherApp/`, put a few emails with different locations, and click subscribe. Meanwhile open up your MySQL database management system, or Workbench. You should be able to see the info you just entered from your database.
 
-6. now you can test the `sendEmails` command. Each of the email address you just entered should receive an customized email based on the location associated with that email.
+8. now you can test the `sendEmails` command. Each of the email address you just entered should receive an customized email based on the location associated with that email.
    ```
    $ python manage.py sendEmails
    ```
 
-7. (**Extra**) Above steps seem to much? No worries! I also hosted on Heroku. Click this link:
+9. (**Extra**) Above steps seem to much? No worries! I also hosted on Heroku. Click this link:
   [https://klaviyo-weather-powered-email.herokuapp.com/](https://klaviyo-weather-powered-email.herokuapp.com/).
 
-8. (**Extra**) Want to peak inside and modify the subscribers? Simply setup a new connection with that remote database! Here are the credentials (Message me and I'll give you the passcode):
+10. (**Extra**) Want to peak inside and modify the subscribers? Simply setup a new connection with that remote database! Here are the credentials (Message me and I'll give you the passcode):
   ```
     CONNECTION NAME:  heroku_112c84ebeeb128b
     HOST NAME: us-cdbr-iron-east-05.cleardb.net
@@ -46,7 +48,6 @@ At this stage, the app can mainly support the following two basic functions.
 
     * Email format sanity check
     * Duplicated email address check
-
 
 2. Customized emails
     *  Created a Django management command ```$ python manage.py sendEmails``` to send customized emails.
