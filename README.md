@@ -1,4 +1,4 @@
-## KlayvioApp:  Weather Powered Email
+## KlaviyoApp:  Weather Powered Email
 
 ---------
 ### Installation Guide:
